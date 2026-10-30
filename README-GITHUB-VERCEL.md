@@ -1,34 +1,10 @@
-# Puteri Suhaimi Photo Studio - GitHub + Vercel Deployment (v1.7.0)
+# Puteri Suhaimi Photo Studio v1.7.1 - GitHub / Vercel
 
-This repository deploys the customer/admin PWA from the versioned source archive. Checkout is manual Maybank transfer only.
+1. Upload the five files in this repository bundle to the root of the existing GitHub repository and replace matching files.
+2. Keep the GitHub branch as `main`.
+3. Vercel builds the app from `Puteri-Photo-Studio-GitHub-Upload-v1.7.1.zip` using `build.js`.
+4. Required Vercel Production environment variables: `SUPABASE_URL` and `SUPABASE_ANON_KEY`. `VAPID_PUBLIC_KEY` is optional for push notifications.
+5. After deployment, run `20261031_ios_receipt_heic_10mb.sql` once in Supabase SQL Editor to enable iPhone HEIC/HEIF receipt uploads up to 10 MB.
+6. In Supabase Authentication > URL Configuration, add `https://puteri-photo-studio-dbdd.vercel.app/**` to Redirect URLs for admin password recovery.
 
-## Upload these files to the repository root
-
-- `Puteri-Photo-Studio-GitHub-Upload-v1.7.0.zip`
-- `package.json`
-- `build.js`
-- `vercel.json`
-- `README-GITHUB-VERCEL.md`
-
-Commit the files directly to branch `main`. Vercel should detect the new commit and run the build.
-
-## Vercel Project Environment Variables
-
-Keep the existing values already configured in the Vercel project:
-
-- `SUPABASE_URL`
-- `SUPABASE_ANON_KEY` (public anon/publishable key)
-- `VAPID_PUBLIC_KEY` (optional; admin push notifications only)
-
-Do not overwrite these values with placeholders. Do not put the Supabase service-role key, database password, VAPID private key or Fiuu secrets in the repository.
-
-## Deployment check
-
-Open Vercel > Deployments. The newest deployment must show `Ready`. Then open the Production domain and test a customer booking and manual receipt upload.
-
-## Android and iOS installation
-
-- Android: Chrome > three-dot menu > Install app / Add to Home screen.
-- iPhone/iPad: Safari > Share > Add to Home Screen.
-
-This is an installable PWA, not a native Play Store/App Store package. Booking and receipt uploads require internet access.
+Do not put Supabase service-role keys, Supabase secret keys, or Fiuu private credentials in GitHub or browser files. Fiuu is not used in this manual-payment version.

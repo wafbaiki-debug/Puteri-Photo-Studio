@@ -3,7 +3,7 @@ const path = require('path');
 const unzipper = require('unzipper');
 
 const root = __dirname;
-const archivePath = path.join(root, 'Puteri-Photo-Studio-GitHub-Upload-v1.7.0.zip');
+const archivePath = path.join(root, 'Puteri-Photo-Studio-GitHub-Upload-v1.7.1.zip');
 const outputDir = path.join(root, 'dist');
 
 const supabaseUrl = (process.env.SUPABASE_URL || '').trim();
