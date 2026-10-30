@@ -1,0 +1,12 @@
+{
+  "name": "puteri-photo-studio-deployment",
+  "version": "1.3.0",
+  "private": true,
+  "description": "Vercel build wrapper for Puteri Suhaimi Photo Studio PWA",
+  "scripts": {
+    "build": "node build.js"
+  },
+  "dependencies": {
+    "unzipper": "^0.12.3"
+  }
+}
