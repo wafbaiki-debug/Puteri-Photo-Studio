@@ -1,34 +1,34 @@
-# Puteri Photo Studio - GitHub first commit and Vercel build
+# Puteri Suhaimi Photo Studio – GitHub and Vercel deployment (v1.4.0)
 
-## Upload these files to the ROOT of the empty GitHub repository
+## Upload these files to the ROOT of the GitHub repository
 
-- `Puteri-Photo-Studio-GitHub-Upload-v1.3.0.zip`
+- `Puteri-Photo-Studio-GitHub-Upload-v1.4.0.zip`
 - `package.json`
 - `build.js`
 - `vercel.json`
-- `README-GITHUB-VERCEL.md` (optional documentation)
+- `README-GITHUB-VERCEL.md`
 
-Do not upload the outer ZIP that contains these five files. Extract it first, then upload the files listed above to the repository root.
+Extract the outer repository bundle first. Upload the five files above to the root of the existing GitHub repository. Do not upload the outer bundle itself.
 
-## Vercel settings
+## Vercel build settings
 
-Vercel reads `vercel.json` automatically:
 - Install command: `npm install`
 - Build command: `npm run build`
 - Output directory: `dist`
 
-## Required Vercel environment variables before deploying
+Required Vercel Production environment variables:
+- `SUPABASE_URL` – the project's HTTPS URL.
+- `SUPABASE_ANON_KEY` – the public Supabase anon/publishable key.
 
-- `SUPABASE_URL` - the real project URL, for example `https://<project-ref>.supabase.co`
-- `SUPABASE_ANON_KEY` - the public anon/publishable key
-- `VAPID_PUBLIC_KEY` - public VAPID key (required to enable web push after push setup; can be added later)
+Optional:
+- `VAPID_PUBLIC_KEY` – public VAPID key for admin push notifications.
 
-The build intentionally fails if `SUPABASE_URL` or `SUPABASE_ANON_KEY` is missing. This prevents publishing the app in demo mode with bookings stored only on one device.
+The build injects Supabase browser configuration from Vercel environment variables. Never put a Supabase service-role key, Fiuu secret/verify key, or VAPID private key in GitHub or browser code.
 
-Never add Supabase service-role keys, Fiuu Secret Key, Fiuu Verify Key, or VAPID private keys to GitHub or browser configuration. Store server-side secrets in Supabase Edge Function secrets.
+## Database migration
+
+The current project already has the v1.3.0 schema and the owner has confirmed the PUTERI, MARYAM and PREMIUM rows in `public.packages`. The source ZIP now also includes `supabase/migrations/20261030_puteri_raya_packages.sql` for reproducible setup. Do not rerun it unnecessarily; it adjusts the package and booking duration constraints to allow 60 minutes and seeds/updates the three packages.
 
 ## Important
 
-The ZIP archive retains the complete project source, including Supabase SQL and Edge Functions. The build script publishes only the public PWA files to Vercel and does not copy the `supabase/` folder into the public website output.
-
-The Supabase database schema/migrations and Edge Functions still need to be applied/deployed separately before real bookings, payment, and push notifications can be used.
+The inner source ZIP contains the full PWA source, Supabase SQL and Edge Functions. The build wrapper publishes only the public PWA assets to Vercel `dist/`. Fiuu merchant credentials, payment callback registration, VAPID private keys and end-to-end payment tests remain separate launch requirements.

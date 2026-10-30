@@ -3,7 +3,7 @@ const path = require('path');
 const unzipper = require('unzipper');
 
 const root = __dirname;
-const archivePath = path.join(root, 'Puteri-Photo-Studio-GitHub-Upload-v1.3.0.zip');
+const archivePath = path.join(root, 'Puteri-Photo-Studio-GitHub-Upload-v1.4.0.zip');
 const outputDir = path.join(root, 'dist');
 
 const supabaseUrl = (process.env.SUPABASE_URL || '').trim();
@@ -25,7 +25,7 @@ if (!fs.existsSync(archivePath)) {
 
 const allowed = new Set([
   'index.html', 'manifest.webmanifest', 'sw.js', 'icon.svg',
-  'icon-192.png', 'icon-512.png', 'apple-touch-icon.png', 'robots.txt'
+  'icon-192.png', 'icon-512.png', 'apple-touch-icon.png', 'logo-puteri-suhaimi.png', 'robots.txt'
 ]);
 
 function writeEntry(entry, destination) {
