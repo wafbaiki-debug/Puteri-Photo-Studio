@@ -1,53 +1,34 @@
-# Puteri Suhaimi Photo Studio - GitHub and Vercel deployment (v1.6.0)
+# Puteri Suhaimi Photo Studio - GitHub + Vercel Deployment (v1.7.0)
 
-## Upload these five files to the ROOT of the existing GitHub repository
+This repository deploys the customer/admin PWA from the versioned source archive. Checkout is manual Maybank transfer only.
 
-- `Puteri-Photo-Studio-GitHub-Upload-v1.6.0.zip`
+## Upload these files to the repository root
+
+- `Puteri-Photo-Studio-GitHub-Upload-v1.7.0.zip`
 - `package.json`
 - `build.js`
 - `vercel.json`
 - `README-GITHUB-VERCEL.md`
 
-Extract the outer repository bundle first. Upload the five files above to the root of the existing GitHub repository. Replace the existing `package.json`, `build.js`, `vercel.json`, and README when GitHub asks. Keep the previous source ZIP until the new deployment is verified.
+Commit the files directly to branch `main`. Vercel should detect the new commit and run the build.
 
-## Vercel build settings
+## Vercel Project Environment Variables
 
-- Install command: `npm install`
-- Build command: `npm run build`
-- Output directory: `dist`
+Keep the existing values already configured in the Vercel project:
 
-Required Vercel Production environment variables (already set for the existing project):
-- `SUPABASE_URL` - the project's HTTPS URL.
-- `SUPABASE_ANON_KEY` - the public Supabase anon/publishable key.
+- `SUPABASE_URL`
+- `SUPABASE_ANON_KEY` (public anon/publishable key)
+- `VAPID_PUBLIC_KEY` (optional; admin push notifications only)
 
-Optional:
-- `VAPID_PUBLIC_KEY` - public VAPID key for admin push notifications.
+Do not overwrite these values with placeholders. Do not put the Supabase service-role key, database password, VAPID private key or Fiuu secrets in the repository.
 
-The build injects Supabase browser configuration from Vercel environment variables. Never put a Supabase service-role key, Fiuu secret/verify key, or VAPID private key in GitHub or browser code.
+## Deployment check
 
-## Official normal operating hours
+Open Vercel > Deployments. The newest deployment must show `Ready`. Then open the Production domain and test a customer booking and manual receipt upload.
 
-- Morning: 09:00-12:00.
-- Midday break: 12:00-14:00.
-- Afternoon: 14:00-18:00.
-- Evening break: 18:00-20:00.
-- Night: 20:00-00:00.
-- Time zone: `Asia/Kuala_Lumpur`.
+## Android and iOS installation
 
-When Ramadan start/end dates are configured in Admin -> Tetapan, the existing special Ramadan schedule remains 09:00-12:30 and 14:00-18:00.
+- Android: Chrome > three-dot menu > Install app / Add to Home screen.
+- iPhone/iPad: Safari > Share > Add to Home Screen.
 
-## Booking hold duration - REQUIRED DATABASE UPDATE
-
-Unpaid bookings are now held for **10 minutes** only. The customer countdown, demo mode and database `public.create_booking` RPC are aligned to this duration. When the 10-minute hold expires without payment/receipt submission, the booking hold is released by the existing expiry mechanism. A submitted manual-transfer receipt moves the booking to pending verification and is no longer treated as an unpaid hold.
-
-For the existing live Supabase project, run `20261030_booking_hold_10_minutes.sql` once in the Supabase SQL Editor after the v1.5.0 operating-hours migration. This migration replaces `public.create_booking` and preserves the existing normal/Ramadan hours validation, package duration, price and overlap protection. It does not delete existing bookings or package rows. The SQL file is included in the inner source ZIP at `supabase/migrations/20261030_booking_hold_10_minutes.sql` and is also supplied separately.
-
-Do not rerun the earlier v1.5.0 operating-hours migration after applying the 10-minute migration unless using the updated copy inside this v1.6.0 source package; the current v1.6.0 copy also uses a 10-minute hold.
-
-## Existing package catalogue
-
-The existing Supabase package rows are retained: PUTERI RM140/15 min, MARYAM RM170/30 min and PREMIUM RM330/60 min. Do not rerun the package migration unnecessarily.
-
-## Important
-
-The inner source ZIP contains the full PWA source, Supabase SQL and Edge Functions. The build wrapper publishes only the public PWA assets to Vercel `dist/`. Fiuu merchant credentials, payment callback registration, VAPID private keys and end-to-end payment tests remain separate launch requirements. The `create-fiuu-payment` Edge Function source has an updated 10-minute expiry message; if that function is already deployed, redeploy that function from the updated source separately.
+This is an installable PWA, not a native Play Store/App Store package. Booking and receipt uploads require internet access.

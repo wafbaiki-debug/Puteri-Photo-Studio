@@ -3,7 +3,7 @@ const path = require('path');
 const unzipper = require('unzipper');
 
 const root = __dirname;
-const archivePath = path.join(root, 'Puteri-Photo-Studio-GitHub-Upload-v1.6.0.zip');
+const archivePath = path.join(root, 'Puteri-Photo-Studio-GitHub-Upload-v1.7.0.zip');
 const outputDir = path.join(root, 'dist');
 
 const supabaseUrl = (process.env.SUPABASE_URL || '').trim();
@@ -19,7 +19,7 @@ if (!supabaseAnonKey) {
   process.exit(1);
 }
 if (!fs.existsSync(archivePath)) {
-  console.error('BUILD STOPPED: The source ZIP is missing from the GitHub repository root.');
+  console.error('BUILD STOPPED: The v1.7.0 source ZIP is missing from the GitHub repository root.');
   process.exit(1);
 }
 
@@ -43,7 +43,6 @@ async function main() {
 
   const archive = await unzipper.Open.file(archivePath);
   const extracted = new Set();
-
   for (const entry of archive.files) {
     const name = entry.path.replace(/\\/g, '/');
     if (entry.type !== 'File' || !allowed.has(name)) continue;
@@ -56,21 +55,15 @@ async function main() {
     if (!extracted.has(required)) throw new Error(`Required app file missing from source ZIP: ${required}`);
   }
 
-  const browserConfig = {
-    supabaseUrl,
-    supabaseAnonKey,
-    pushVapidPublicKey,
-    demoMode: false
-  };
+  const browserConfig = { supabaseUrl, supabaseAnonKey, pushVapidPublicKey, demoMode: false };
   fs.writeFileSync(
     path.join(outputDir, 'config.js'),
     `// Generated during Vercel build. Public anon key only; never place server secrets here.\nwindow.STUDIO_CONFIG = ${JSON.stringify(browserConfig, null, 2)};\n`,
     'utf8'
   );
-
   console.log(`Build complete. Published ${extracted.size + 1} web assets to dist/.`);
   console.log('Supabase URL and public anon key were injected from Vercel environment variables.');
-  console.log('Supabase service-role key and Fiuu secret keys are not used in the browser build.');
+  console.log('No Fiuu merchant credentials are required for the manual-only checkout.');
 }
 
 main().catch((error) => {
