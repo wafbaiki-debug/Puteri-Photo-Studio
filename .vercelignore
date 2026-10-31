@@ -1,0 +1,9 @@
+supabase/
+*.sql
+*.md
+README*
+DEPLOYMENT-AND-LAUNCH.md
+PUSH-NOTIFICATION-SETUP.md
+VERSION.txt
+.env.example
+Puteri-Photo-Studio-*.html
