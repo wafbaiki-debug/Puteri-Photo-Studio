@@ -3,7 +3,7 @@ const path = require('path');
 const unzipper = require('unzipper');
 
 const root = __dirname;
-const archivePath = path.join(root, 'Puteri-Photo-Studio-GitHub-Upload-v1.7.1.zip');
+const archivePath = path.join(root, 'Puteri-Photo-Studio-GitHub-Upload-v1.7.2.zip');
 const outputDir = path.join(root, 'dist');
 
 const supabaseUrl = (process.env.SUPABASE_URL || '').trim();
@@ -19,7 +19,7 @@ if (!supabaseAnonKey) {
   process.exit(1);
 }
 if (!fs.existsSync(archivePath)) {
-  console.error('BUILD STOPPED: The v1.7.0 source ZIP is missing from the GitHub repository root.');
+  console.error('BUILD STOPPED: The v1.7.2 source ZIP is missing from the GitHub repository root.');
   process.exit(1);
 }
 

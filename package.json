@@ -1,8 +1,8 @@
 {
   "name": "puteri-photo-studio-deployment",
-  "version": "1.7.1",
+  "version": "1.7.2",
   "private": true,
-  "description": "Vercel build wrapper for Puteri Suhaimi Photo Studio manual-payment PWA v1.7.1",
+  "description": "Vercel build wrapper for Puteri Suhaimi Photo Studio manual-payment PWA v1.7.2",
   "scripts": {
     "build": "node build.js"
   },
