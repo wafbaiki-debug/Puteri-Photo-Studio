@@ -3,7 +3,7 @@ const path = require('path');
 const unzipper = require('unzipper');
 
 const root = __dirname;
-const archivePath = path.join(root, 'Puteri-Photo-Studio-GitHub-Upload-v1.7.2.zip');
+const archivePath = path.join(root, 'Puteri-Photo-Studio-GitHub-Upload-v1.7.5.zip');
 const outputDir = path.join(root, 'dist');
 
 const supabaseUrl = (process.env.SUPABASE_URL || '').trim();
@@ -19,7 +19,7 @@ if (!supabaseAnonKey) {
   process.exit(1);
 }
 if (!fs.existsSync(archivePath)) {
-  console.error('BUILD STOPPED: The v1.7.2 source ZIP is missing from the GitHub repository root.');
+  console.error('BUILD STOPPED: The v1.7.5 source ZIP is missing from the GitHub repository root.');
   process.exit(1);
 }
 
@@ -63,7 +63,7 @@ async function main() {
   );
   console.log(`Build complete. Published ${extracted.size + 1} web assets to dist/.`);
   console.log('Supabase URL and public anon key were injected from Vercel environment variables.');
-  console.log('No Fiuu merchant credentials are required for the manual-only checkout.');
+  console.log('Checkout: manual Maybank only. Expired bookings can submit a late receipt only if the future slot is still free; accepted receipts keep the slot blocked until admin verification. Admin push is sent when a receipt is accepted.');
 }
 
 main().catch((error) => {
