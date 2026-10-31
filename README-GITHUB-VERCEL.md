@@ -1,29 +1,25 @@
-# Puteri Suhaimi Photo Studio v1.7.5 - GitHub / Vercel Update
+# Puteri Suhaimi Photo Studio v1.7.6 - GitHub / Vercel Update
 
-This is an update for the existing GitHub repository, Vercel project and Supabase database. It does not deploy automatically. Keep the existing Supabase project and production Vercel project.
+This is a frontend update for the existing GitHub repository and Vercel project. It does not deploy automatically. Keep the existing Supabase project and production Vercel project. The v1.7.5 database migration and unpaid-hold Cron have already been applied as separate steps; this v1.7.6 policy display update requires no new SQL migration.
 
 ## 1. Upload these files to the existing GitHub repository
 
-Extract the outer update bundle and upload/replace these files in the repository root on branch `main`:
+Extract the outer update bundle and upload/replace these four files in the existing repository root on branch `main`:
 
 1. `build.js`
 2. `package.json`
-3. `vercel.json`
-4. `.vercelignore`
-5. `.gitignore`
-6. `Puteri-Photo-Studio-GitHub-Upload-v1.7.5.zip`
-7. `README-GITHUB-VERCEL.md`
+3. `Puteri-Photo-Studio-GitHub-Upload-v1.7.6.zip`
+4. `README-GITHUB-VERCEL.md`
 
-The source ZIP contains the customer app, admin dashboard, Supabase SQL schema and migrations, Edge Functions, PWA assets and setup guides. Vercel's `build.js` extracts only the public web assets into `dist/` and injects the public Supabase configuration from Vercel Environment Variables. The standalone v1.7.5 SQL migration is also supplied separately in the outer bundle for easy use in Supabase SQL Editor.
+Keep the existing `vercel.json`, `.vercelignore` and `.gitignore`; they do not need to be changed for this policy update.
 
-## 2. Update Supabase first - preserve all existing data
+The source ZIP contains the customer app, admin dashboard, Supabase SQL schema and migrations, Edge Functions, PWA assets and setup guides. Vercel's `build.js` extracts only the public web assets into `dist/` and injects the public Supabase configuration from Vercel Environment Variables. The v1.7.5 SQL migration is retained in the source archive for reference; do not rerun it if it has already been applied.
+
+## 2. Supabase - preserve the existing configuration
 
 Do not run the root `schema.sql` on the live database. Do not recreate the Supabase project.
 
-1. Open the existing Supabase project -> SQL Editor.
-2. Run `20261031_late_manual_payment_reactivation_v1_7_5.sql` once. This replaces the receipt-submission, booking-lookup and receipt-storage authorization functions. It does not delete bookings or receipt files. It also creates/updates `lookup_booking_for_payment`, so a separate v1.7.3 lookup migration is not required for this feature.
-3. Confirm the query completes successfully. If it reports an error, stop and resolve it before deploying the new app.
-4. Keep the existing admin push tables, Edge Functions, webhook and VAPID secrets if they are already working. Do not recreate them unnecessarily.
+The v1.7.5 migration and the `puteri-photo-expire-unpaid-holds` Cron job were already applied during the previous setup. Do not rerun the migration or recreate the Supabase project for v1.7.6. Keep existing admin push tables, Edge Functions, webhook and VAPID secrets if they are already configured.
 
 Optional existing-project migrations (run only if the feature is not already installed):
 
@@ -31,7 +27,7 @@ Optional existing-project migrations (run only if the feature is not already ins
 - `20261031_expire_unpaid_holds_cron_v1_7_4.sql` - schedules expiry of unpaid 10-minute holds every minute. Enable `pg_cron` first. The app's availability, create and lookup RPCs also expire old holds.
 - `supabase/migrations/20261030_admin_push_notifications.sql` - creates the admin push subscription and notification log tables. Run only if they do not exist.
 
-## 3. Payment rules in v1.7.5
+## 3. Payment rules carried forward from v1.7.5
 
 - A new unpaid booking gets an initial 10-minute slot hold. It is not yet a valid booking and does not appear in the confirmed-booking list.
 - If the customer uploads a receipt within the initial 10 minutes, the booking becomes `pending_verification`; the timer no longer applies and the slot stays blocked while the admin checks Maybank.
@@ -84,3 +80,8 @@ After committing the uploaded files to `main`, wait for the newest Vercel deploy
 7. Verify cancelling a pending request releases its slot.
 
 Push delivery is best-effort and depends on device/browser permission and connectivity. The Admin Dashboard and actual Maybank transaction remain authoritative.
+
+
+## 7. Customer cancellation/refund policy notice (v1.7.6)
+
+The app shows the policy notice at three customer journey points: (1) before booking submission, (2) on the Maybank payment panel, and (3) immediately before receipt submission. A required checkbox is enforced before creating the booking and before accepting the receipt upload. The policy copy is qualified by applicable Malaysian consumer law and provides an appropriate remedy where the studio is responsible for not providing the session. No additional database migration is required for this UI/flow change.
